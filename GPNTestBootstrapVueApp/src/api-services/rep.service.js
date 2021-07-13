@@ -1,8 +1,8 @@
 import Axios from 'axios'
-const RESOURCE_NAME = '/Report/finance'
+const RESOURCE_NAME = '/Report'
 export default {
 
-  getFinReport () {
-    return Axios.get(RESOURCE_NAME)
+  getFinReport (repname, repquarter, repdep) {
+    return Axios.get(`${RESOURCE_NAME}/finance?name=${repname}&quarter=${repquarter}&department=${repdep}`)
   }
 }

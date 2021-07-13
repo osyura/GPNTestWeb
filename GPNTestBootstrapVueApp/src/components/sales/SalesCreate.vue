@@ -2,54 +2,50 @@
   <b-container fluid>
     <div class="form-wrapper">
       <b-form @submit.prevent="createSale">
-        <b-form-group
-          :label-cols="2"
-          breakpoint="md"
-          horizontal
-          label="Name of the Department:"
-          for="department">
+        <b-form-group :label-cols="2"
+                      breakpoint="md"
+                      horizontal
+                      label="Name of the Department:"
+                      for="department">
           <b-col :md="5">
-            <b-input
-              id="department"
-              v-model="formData.department"
-              maxlength="60"
-              required />
+            <b-input id="department"
+                     v-model="formData.department"
+                     maxlength="60"
+                     required />
           </b-col>
         </b-form-group>
-        <b-form-group
-          :label-cols="2"
-          breakpoint="md"
-          horizontal
-          label="Sale prise:"
-          for="price">
+        <b-form-group :label-cols="2"
+                      breakpoint="md"
+                      horizontal
+                      label="Sale prise:"
+                      for="price">
           <b-col :md="5">
-            <b-input
-              id="price"
-              v-model="formData.price"
-              maxlength="100"
-              required />
+            <b-input id="price"
+                     v-model="formData.price"
+                     maxlength="100"
+                     required />
           </b-col>
         </b-form-group>
-        <b-form-group
-          :label-cols="2"
-          breakpoint="md"
-          horizontal>
+        <b-form-group :label-cols="2"
+                      breakpoint="md"
+                      horizontal
+                      label="Sale quarter:"
+                      for="quarter">
           <b-col :md="5">
-            <b-dropdown id="quarter" text="Quarter choose">
-              <b-dropdown-item v-for="quarter in quarters" :key="quarter.key">>{{ quarter.name }}</b-dropdown-item>
+
+            <b-dropdown id="quarter" v-model="formData.quarter" text="" class="m-md-2" required>
+              <b-dropdown-item v-for="quarter in quarters" :key="quarter.value" value="quarter.value">{{quarter.key}}</b-dropdown-item>
             </b-dropdown>
           </b-col>
         </b-form-group>
-        <br ><br >
-        <b-col
-          :md="5"
-          offset="4">
-          <b-button
-            type="submit"
-            variant="info">Save</b-button>
-          <b-button
-            :to="{ name: 'SalesList' }"
-            variant="danger">Cancel</b-button>
+
+        <br><br>
+        <b-col :md="5"
+               offset="4">
+          <b-button type="submit"
+                    variant="info">Save</b-button>
+          <b-button :to="{ name: 'SalesList' }"
+                    variant="danger">Cancel</b-button>
         </b-col>
       </b-form>
     </div>
@@ -73,7 +69,7 @@ export default {
       formData: {
         department: '',
         price: '',
-        quarter: ''
+        iQuarter: ''
       },
       alertModalTitle: '',
       alertModalContent: '',
@@ -81,12 +77,12 @@ export default {
       quarters: []
     }
   },
+  created () {
+    SalesService.getQuarters().then((response) => {
+      this.quarters = response.data
+    })
+  },
   methods: {
-    created () {
-      SalesService.getQuarters().then((response) => {
-        this.quarters = response.data
-      })
-    },
     createSale () {
       SalesService.create(this.formData).then(() => {
         this.isSuccessfully = true
@@ -96,7 +92,7 @@ export default {
         this.formData = {
           department: '',
           price: '',
-          quarter: ''
+          iQuarter: ''
         }
       }).catch((error) => {
         this.isSuccessfully = false

@@ -29,15 +29,15 @@ namespace GPNTestAPIApp.Controllers
             return await _context.SaleItems.ToListAsync();
         }
 
-        /*[HttpGet("quarters")]
-        public Task<ActionResult<IEnumerable<Quarter>>> GetQuarterItems()
-        {
+		[HttpGet("quarters")]
+		public IEnumerable<KeyValuePair<string, int>> GetQuarterItems()
+		{
 
-            return Enum.GetValues(typeof(Quarter)).Cast<Quarter>();
-        }*/
+			return GPNTestWeb.Model.Enums.EnumExtensions.GetValues<Quarter>().ToList();
+		}
 
-        // GET: api/Report/5
-        [HttpGet("{id}")]
+		// GET: api/Report/5
+		[HttpGet("{id}")]
         public async Task<ActionResult<SaleItem>> GetSaleItem(long id)
         {
             var saleItem = await _context.SaleItems.FindAsync(id);
@@ -86,6 +86,7 @@ namespace GPNTestAPIApp.Controllers
         [HttpPost]
         public async Task<ActionResult<SaleItem>> PostSaleItem(SaleItem saleItem)
         {
+            saleItem.Quarter = (Quarter)(saleItem.IQuarter - 1);
             _context.SaleItems.Add(saleItem);
             await _context.SaveChangesAsync();
 

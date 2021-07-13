@@ -1,22 +1,79 @@
 <template>
-  <p class="homeText">
-    You recive {{report.reportName}}: In {{report.reportQuarter}} quarter department {{report.department}} sales goods on {{report.sales_sum}}$.
-  </p>
+  <div class="form-wrapper">
+    <b-form @submit.prevent="sendRequest">
+      <b-form-group :label-cols="2"
+                    breakpoint="md"
+                    horizontal
+                    label="Name of Report:"
+                    for="repName">
+        <b-col :md="5">
+          <b-input id="repName"
+                   name="repName"
+                   maxlength="100"
+                   required />
+        </b-col>
+      </b-form-group>
+      <b-form-group :label-cols="2"
+                    breakpoint="md"
+                    horizontal
+                    label="What quarter:"
+                    for="repQuarter">
+        <b-col :md="5">
+          <b-dropdown id="repQuarter" text="" class="m-md-2" required>
+            <b-dropdown-item v-for="quarter in quarters" :key="quarter.value" value="quarter.value">{{quarter.key}}</b-dropdown-item>
+          </b-dropdown>
+        </b-col>
+      </b-form-group>
+      <b-form-group :label-cols="2"
+                    breakpoint="md"
+                    horizontal
+                    label="Department name:"
+                    for="repDep">
+        <b-col :md="5">
+          <b-input id="repDep"
+                   maxlength="100"
+                   required />
+        </b-col>
+      </b-form-group>
+      <br><br>
+      <b-col :md="5"
+             offset="4">
+        <b-button type="submit"
+                  variant="info">Send request</b-button>
+      </b-col>
+    </b-form>
+    <p class="homeText" id="rep_text">
+      You recive {{report.reportName}}: In {{report.reportQuarter + 1}} quarter department {{report.department}} sales goods on {{report.sales_sum}}$.
+    </p>
+  </div>
+
 </template>
 <script>
 import RepService from '@/api-services/rep.service'
+import SalesService from '@/api-services/sales.service'
 
 export default {
   name: 'RepPage',
   data () {
     return {
-      report: []
+      report: [],
+      quarters: []
     }
   },
   created () {
-    RepService.getFinReport().then((response) => {
-      this.report = response.data
+    SalesService.getQuarters().then((response) => {
+      this.quarters = response.data
     })
+  },
+  methods: {
+    sendRequest () {
+      var repName = document.getElementById('repName').value
+      var repQuarter = document.getElementById('repQuarter').value
+      var repDep = document.getElementById('repDep').value
+      RepService.getFinReport(repName, repQuarter, repDep).then((response) => {
+        this.report = response.data
+      })
+    }
   }
 }
 </script>
