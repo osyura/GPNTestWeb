@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 namespace GPNTestAPIApp.Controllers
 {
 	[Route("api/[controller]")]
-    [ApiController]
-    public class ReportController : ControllerBase
-    {
-        private readonly AppDbContext _context;
+	[ApiController]
+	public class ReportController : ControllerBase
+	{
+		private readonly AppDbContext _context;
 
-        public ReportController(AppDbContext context)
-        {
-            _context = context;
+		public ReportController(AppDbContext context)
+		{
+			_context = context;
 
 			if (context.SaleItems.Count() == 0)
 			{
@@ -56,19 +56,19 @@ namespace GPNTestAPIApp.Controllers
 			_context.SaveChanges();
 		}
 
-        [HttpGet("finance")]
+		[HttpGet("finance")]
 		//[HttpGet("finance/{quarter:int}")]
-		public async Task<ActionResult<FinanceReport>> GetFinanceReportItems(string name = "Финансовый отчет за квартал", int quarter = 1, string department = "DIT")
-        {
-            var test = _context.SaleItems.Count();
+		public async Task<ActionResult<FinanceReport>> GetFinanceReportItems(string name = "Финансовый отчет за квартал", int quarter = 0, string department = "DIT")
+		{
+			var test = _context.SaleItems.Count();
 
 			var enumQuarter = (Quarter)(quarter);
 
 			var result = new FinanceReport(name, enumQuarter, department);
-            result.Sales = await _context.SaleItems.Where(x=>x.Department.ToLower() == department.ToLower() && x.Quarter == enumQuarter).ToListAsync();
+			result.Sales = await _context.SaleItems.Where(x => x.Department.ToLower() == department.ToLower() && x.Quarter == enumQuarter).ToListAsync();
 
 
-            return result;
-        }
-    }
+			return result;
+		}
+	}
 }

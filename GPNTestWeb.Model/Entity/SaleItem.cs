@@ -15,6 +15,5 @@ namespace GPNTestWeb.Model.Entity
         public int Price { get; set; }
 
         public Quarter Quarter { get; set; }
-        public int IQuarter { get; set; }
     }
 }
