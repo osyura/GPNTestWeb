@@ -65,9 +65,9 @@ namespace GPNTestAPIApp.Controllers
         {
             var test = _context.SaleItems.Count();
 
-            var enumQuarter = (Quarter)(quarter - 1);
+			var enumQuarter = (Quarter)(quarter);
 
-            var result = new FinanceReport(name, enumQuarter, department);
+			var result = new FinanceReport(name, enumQuarter, department);
             result.Sales = await _context.SaleItems.Where(x=>x.Department.ToLower() == department.ToLower() && x.Quarter == enumQuarter).ToListAsync();
 
 

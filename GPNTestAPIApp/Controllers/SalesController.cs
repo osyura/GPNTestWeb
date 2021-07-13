@@ -86,7 +86,7 @@ namespace GPNTestAPIApp.Controllers
         [HttpPost]
         public async Task<ActionResult<SaleItem>> PostSaleItem(SaleItem saleItem)
         {
-            saleItem.Quarter = (Quarter)(saleItem.IQuarter - 1);
+
             _context.SaleItems.Add(saleItem);
             await _context.SaveChangesAsync();
 

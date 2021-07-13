@@ -32,10 +32,11 @@
                       label="Sale quarter:"
                       for="quarter">
           <b-col :md="5">
-
-            <b-dropdown id="quarter" v-model="formData.quarter" text="" class="m-md-2" required>
-              <b-dropdown-item v-for="quarter in quarters" :key="quarter.value" value="quarter.value">{{quarter.key}}</b-dropdown-item>
-            </b-dropdown>
+            <select id="quarter" v-model="formData.quarter" class="m-md-2" required>
+              <option disabled value="">Pick one of</option>
+              <option v-for="quarter in quarters" :key="quarter.value" :value="quarter.value">{{quarter.key}}</option>
+            </select>
+            <span>Picked: {{formData.quarter}}</span>
           </b-col>
         </b-form-group>
 
@@ -69,7 +70,7 @@ export default {
       formData: {
         department: '',
         price: '',
-        iQuarter: ''
+        quarter: ''
       },
       alertModalTitle: '',
       alertModalContent: '',
@@ -92,7 +93,7 @@ export default {
         this.formData = {
           department: '',
           price: '',
-          iQuarter: ''
+          quarter: ''
         }
       }).catch((error) => {
         this.isSuccessfully = false
