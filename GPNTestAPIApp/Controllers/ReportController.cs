@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using GPNTestWeb.Data;
+using GPNTestWeb.Model.Entity;
+using GPNTestWeb.Model.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GPNTestWeb.Data;
-using GPNTestWeb.Model.Enums;
-using GPNTestWeb.Model.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GPNTestAPIApp.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
     [ApiController]
     public class ReportController : ControllerBase
     {
